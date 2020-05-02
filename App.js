@@ -578,7 +578,7 @@
          codelog+= this.state.sec
          console.log(codelog)
          Alert.alert("Thanks for practicing!",
-           'you have been practicing for ' + this.state.min + ' minutes and'  + this.state.sec + ' ' + 'seconds')
+           'you have been practicing for ' + this.state.min + ' minutes and '  + this.state.sec + ' ' + 'seconds')
          this.setState({
              min: 0,
              sec: 0,
