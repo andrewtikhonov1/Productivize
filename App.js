@@ -1058,7 +1058,7 @@ var otherlog = 0
        <Card style={{backgroundColor: '#eff9e7',bottom:"-5%"}}>
 
          <CardItem header style={{width: "75%", backgroundColor: '#eff9e7',marginVertical:"4%"}}>
-           <Text style={{fontSize:14, fontFamily: 'best-font',}}>Welcome! Feel free to spend some time learning coding, one of the most revolutionary hobbies in the world that combines technology and critical thinking!</Text>
+           <Text style={{fontSize:14, fontFamily: 'best-font',}}>Welcome! Feel free to spend some time learning a hobby you shared, one of the most revolutionary hobbies in the world that combines technology and critical thinking!</Text>
          </CardItem>
          </Card>
 
