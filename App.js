@@ -39,7 +39,7 @@
  var cooklog = 0
  var instrumentlog = 0
  var languagelog = 0
-
+var otherlog = 0
  let customFonts = {
    'best-font': require('./assets/fonts/Manrope-Light.ttf'),
  };
@@ -529,6 +529,7 @@
    constructor(props){
      super(props);
      this.state = {
+              hour:0,
               min: 0,
               sec: 0,
               msec: 0
@@ -559,11 +560,22 @@
                          msec: 0,
                          sec: ++this.state.sec
                      });
-                 } else {
+                 }
+
+                 else if (this.state.min !== 59) {
+                     this.setState({
+                         msec:0,
+                         sec: 0,
+                         min: ++this.state.min
+                     });
+                 }
+
+                  else {
                      this.setState({
                          msec: 0,
                          sec: 0,
-                         min: ++this.state.min
+                         min:0,
+                         hour: ++this.state.hour
                      });
                  }
              }, 1);
@@ -574,11 +586,11 @@
      };
 
      handleReset = () => {
-       if(this.state.sec >0){
-         codelog+= this.state.sec
+       if(this.state.sec >=0){
+         codelog+= this.state.sec + (this.state.min*60) +(this.state.hour*3600)
          console.log(codelog)
          Alert.alert("Thanks for practicing!",
-           'you have been practicing for ' + this.state.min + ' minutes and '  + this.state.sec + ' ' + 'seconds')
+           'you have been practicing for ' + this.state.hour + ' hours  ' + this.state.min + ' minutes and '  + this.state.sec + ' ' + 'seconds')
          this.setState({
              min: 0,
              sec: 0,
@@ -605,8 +617,15 @@
                   height: "100%",
                 }}
        />
+       <Card style={{backgroundColor: '#eff9e7',bottom:"-5%"}}>
+
+         <CardItem header style={{width: "75%", backgroundColor: '#eff9e7',marginVertical:"4%"}}>
+           <Text style={{fontSize:14, fontFamily: 'best-font',}}>Welcome! Feel free to spend some time learning coding, one of the most revolutionary hobbies in the world that combines technology and critical thinking!</Text>
+         </CardItem>
+         </Card>
+
        <WebView
-         style={{height: "22.5%", width: 225, marginVertical: "70%", bottom:"12%" }}
+         style={{height: "24.5%", width: 225, marginVertical: "50%", bottom:"12%" }}
          javaScriptEnabled={true}
          startInLoadingState={true}
 
@@ -615,13 +634,14 @@
 
        />
        <Button
-       style = {{top:"-180%"}}
+       style = {{top:"-150%",backgroundColor:'#74b53d'}}
        title = {!this.state.start? 'Start time': 'Pause Activity'}
        onPress = {this.handleToggle
        }
        />
        <Button
-       style = {{top:"-100%",bottom:"15%"}}
+       style = {{top:"-100%",bottom:"15%",backgroundColor:'#74b53d'}}
+
        title = {'Stop and Log'}
        onPress = {this.handleReset
        }
@@ -637,9 +657,81 @@
    }
 
  class CookingScreen extends React.Component{
+   constructor(props){
+     super(props);
+     this.state = {
+              hour:0,
+              min: 0,
+              sec: 0,
+              msec: 0
+          }
+   }
    static navigationOptions  = {
      title:'Cooking'
    }
+   handleToggle = () => {
+         this.setState(
+             {
+                 start: !this.state.start
+             },
+             () => this.handleStart()
+         );
+     };
+
+
+     handleStart = () => {
+         if (this.state.start) {
+             this.interval = setInterval(() => {
+                 if (this.state.msec !== 100) {
+                     this.setState({
+                         msec: this.state.msec + 2
+                     });
+                 } else if (this.state.sec !== 59) {
+                     this.setState({
+                         msec: 0,
+                         sec: ++this.state.sec
+                     });
+                 }
+
+                 else if (this.state.min !== 59) {
+                     this.setState({
+                         msec:0,
+                         sec: 0,
+                         min: ++this.state.min
+                     });
+                 }
+
+                  else {
+                     this.setState({
+                         msec: 0,
+                         sec: 0,
+                         min:0,
+                         hour: ++this.state.hour
+                     });
+                 }
+             }, 1);
+
+         } else {
+             clearInterval(this.interval);
+         }
+     };
+
+     handleReset = () => {
+       if(this.state.sec >=0){
+         cooklog+= this.state.sec + (this.state.min*60) +(this.state.hour*3600)
+         console.log(codelog)
+         Alert.alert("Thanks for practicing!",
+           'you have been practicing for ' + this.state.hour + " " + ' hours' + this.state.min + ' minutes and '  + this.state.sec + ' ' + 'seconds')
+         this.setState({
+             min: 0,
+             sec: 0,
+             msec: 0,
+
+             start: false
+         });
+         clearInterval(this.interval);
+ }
+     };
    render() {
      const {navigate} = this.props.navigation;
      return (
@@ -654,7 +746,36 @@
                   height: "100%",
                 }}
        />
-       <Text onPress={() => navigate('Home')}>This is cooking...Return To Home Screen</Text>
+       <Card style={{backgroundColor: '#eff9e7',bottom:"-5%"}}>
+
+         <CardItem header style={{width: "75%", backgroundColor: '#eff9e7',marginVertical:"4%"}}>
+           <Text style={{fontSize:14, fontFamily: 'best-font',}}>Welcome! Feel free to spend some time learning cooking and become a food conniseur!</Text>
+         </CardItem>
+         </Card>
+
+       <WebView
+         style={{height: "24.5%", width: 225, marginVertical: "50%", bottom:"12%" }}
+         javaScriptEnabled={true}
+         startInLoadingState={true}
+
+         domStorageEnabled={true}
+         source={{ uri: 'https://www.youtube.com/embed/9_5wHw6l11o' }}
+
+       />
+       <Button
+       style = {{top:"-150%",backgroundColor:'#74b53d'}}
+       title = {!this.state.start? 'Start time': 'Pause Activity'}
+       onPress = {this.handleToggle
+       }
+       />
+       <Button
+       style = {{top:"-100%",bottom:"15%",backgroundColor:'#74b53d'}}
+
+       title = {'Stop and Log'}
+       onPress = {this.handleReset
+       }
+       />
+
 
        </View>
      );
@@ -663,9 +784,81 @@
  }
 
  class InstrumentScreen extends React.Component{
+   constructor(props){
+     super(props);
+     this.state = {
+              hour:0,
+              min: 0,
+              sec: 0,
+              msec: 0
+          }
+   }
    static navigationOptions  = {
      title:'Instrument'
    }
+   handleToggle = () => {
+         this.setState(
+             {
+                 start: !this.state.start
+             },
+             () => this.handleStart()
+         );
+     };
+
+
+     handleStart = () => {
+         if (this.state.start) {
+             this.interval = setInterval(() => {
+                 if (this.state.msec !== 100) {
+                     this.setState({
+                         msec: this.state.msec + 2
+                     });
+                 } else if (this.state.sec !== 59) {
+                     this.setState({
+                         msec: 0,
+                         sec: ++this.state.sec
+                     });
+                 }
+
+                 else if (this.state.min !== 59) {
+                     this.setState({
+                         msec:0,
+                         sec: 0,
+                         min: ++this.state.min
+                     });
+                 }
+
+                  else {
+                     this.setState({
+                         msec: 0,
+                         sec: 0,
+                         min:0,
+                         hour: ++this.state.hour
+                     });
+                 }
+             }, 1);
+
+         } else {
+             clearInterval(this.interval);
+         }
+     };
+
+     handleReset = () => {
+       if(this.state.sec >=0){
+         cooklog+= this.state.sec + (this.state.min*60) +(this.state.hour*3600)
+         console.log(codelog)
+         Alert.alert("Thanks for practicing!",
+           'you have been practicing for ' + this.state.hour + " " + ' hours' + this.state.min + ' minutes and '  + this.state.sec + ' ' + 'seconds')
+         this.setState({
+             min: 0,
+             sec: 0,
+             msec: 0,
+
+             start: false
+         });
+         clearInterval(this.interval);
+ }
+     };
    render() {
      const {navigate} = this.props.navigation;
      return (
@@ -680,7 +873,36 @@
                   height: "100%",
                 }}
        />
-       <Text onPress={() => navigate('Home')}>This is instrument...Return To Home Screen</Text>
+       <Card style={{backgroundColor: '#eff9e7',bottom:"-5%"}}>
+
+         <CardItem header style={{width: "75%", backgroundColor: '#eff9e7',marginVertical:"4%"}}>
+           <Text style={{fontSize:14, fontFamily: 'best-font',}}>Welcome! Feel free to spend some time learning a new instrument and become the next Yo-Yo Ma or Louis armstrong!</Text>
+         </CardItem>
+         </Card>
+
+       <WebView
+         style={{height: "24.5%", width: 225, marginVertical: "50%", bottom:"12%" }}
+         javaScriptEnabled={true}
+         startInLoadingState={true}
+
+         domStorageEnabled={true}
+         source={{ uri: 'https://www.youtube.com/embed/qZIeVsnTDmI' }}
+
+       />
+       <Button
+       style = {{top:"-150%",backgroundColor:'#74b53d'}}
+       title = {!this.state.start? 'Start time': 'Pause Activity'}
+       onPress = {this.handleToggle
+       }
+       />
+       <Button
+       style = {{top:"-100%",bottom:"15%",backgroundColor:'#74b53d'}}
+
+       title = {'Stop and Log'}
+       onPress = {this.handleReset
+       }
+       />
+
 
        </View>
      );
@@ -689,9 +911,81 @@
  }
 
  class LanguageScreen extends React.Component{
+   constructor(props){
+     super(props);
+     this.state = {
+              hour:0,
+              min: 0,
+              sec: 0,
+              msec: 0
+          }
+   }
    static navigationOptions  = {
      title:'Language'
    }
+   handleToggle = () => {
+         this.setState(
+             {
+                 start: !this.state.start
+             },
+             () => this.handleStart()
+         );
+     };
+
+
+     handleStart = () => {
+         if (this.state.start) {
+             this.interval = setInterval(() => {
+                 if (this.state.msec !== 100) {
+                     this.setState({
+                         msec: this.state.msec + 2
+                     });
+                 } else if (this.state.sec !== 59) {
+                     this.setState({
+                         msec: 0,
+                         sec: ++this.state.sec
+                     });
+                 }
+
+                 else if (this.state.min !== 59) {
+                     this.setState({
+                         msec:0,
+                         sec: 0,
+                         min: ++this.state.min
+                     });
+                 }
+
+                  else {
+                     this.setState({
+                         msec: 0,
+                         sec: 0,
+                         min:0,
+                         hour: ++this.state.hour
+                     });
+                 }
+             }, 1);
+
+         } else {
+             clearInterval(this.interval);
+         }
+     };
+
+     handleReset = () => {
+       if(this.state.sec >=0){
+         cooklog+= this.state.sec + (this.state.min*60) +(this.state.hour*3600)
+         console.log(codelog)
+         Alert.alert("Thanks for practicing!",
+           'you have been practicing for ' + this.state.hour + " " + ' hours' + this.state.min + ' minutes and '  + this.state.sec + ' ' + 'seconds')
+         this.setState({
+             min: 0,
+             sec: 0,
+             msec: 0,
+
+             start: false
+         });
+         clearInterval(this.interval);
+ }
+     };
    render() {
      const {navigate} = this.props.navigation;
      return (
@@ -706,7 +1000,36 @@
                   height: "100%",
                 }}
        />
-       <Text onPress={() => navigate('Home')}>This is learning a language screen...Return To Home Screen</Text>
+       <Card style={{backgroundColor: '#eff9e7',bottom:"-5%"}}>
+
+         <CardItem header style={{width: "75%", backgroundColor: '#eff9e7',marginVertical:"4%"}}>
+           <Text style={{fontSize:14, fontFamily: 'best-font',}}>Welcome! Feel free to spend some time learning a new language, from Spanish, to Mandarin there are plenty of great resources out there!</Text>
+         </CardItem>
+         </Card>
+
+       <WebView
+         style={{height: "24.5%", width: 225, marginVertical: "50%", bottom:"12%" }}
+         javaScriptEnabled={true}
+         startInLoadingState={true}
+
+         domStorageEnabled={true}
+         source={{ uri: 'https://www.youtube.com/embed/CNbklPRdT4Y' }}
+
+       />
+       <Button
+       style = {{top:"-150%",backgroundColor:'#74b53d'}}
+       title = {!this.state.start? 'Start time': 'Pause Activity'}
+       onPress = {this.handleToggle
+       }
+       />
+       <Button
+       style = {{top:"-100%",bottom:"15%",backgroundColor:'#74b53d'}}
+
+       title = {'Stop and Log'}
+       onPress = {this.handleReset
+       }
+       />
+
 
        </View>
      );
@@ -732,7 +1055,36 @@
                   height: "100%",
                 }}
        />
-       <Text onPress={() => navigate('Home')}>This is other screen...Return To Home Screen</Text>
+       <Card style={{backgroundColor: '#eff9e7',bottom:"-5%"}}>
+
+         <CardItem header style={{width: "75%", backgroundColor: '#eff9e7',marginVertical:"4%"}}>
+           <Text style={{fontSize:14, fontFamily: 'best-font',}}>Welcome! Feel free to spend some time learning coding, one of the most revolutionary hobbies in the world that combines technology and critical thinking!</Text>
+         </CardItem>
+         </Card>
+
+       <WebView
+         style={{height: "24.5%", width: 225, marginVertical: "50%", bottom:"12%" }}
+         javaScriptEnabled={true}
+         startInLoadingState={true}
+
+         domStorageEnabled={true}
+         source={{ uri: 'https://www.youtube.com/embed/cKhVupvyhKk' }}
+
+       />
+       <Button
+       style = {{top:"-150%",backgroundColor:'#74b53d'}}
+       title = {!this.state.start? 'Start time': 'Pause Activity'}
+       onPress = {this.handleToggle
+       }
+       />
+       <Button
+       style = {{top:"-100%",bottom:"15%",backgroundColor:'#74b53d'}}
+
+       title = {'Stop and Log'}
+       onPress = {this.handleReset
+       }
+       />
+
 
        </View>
      );
@@ -860,6 +1212,40 @@
      }
    }
 
+   class Statsscreen extends React.Component{
+     static navigationOptions  = {
+       title:'Stats'
+     }
+     render(){
+       return(
+         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+         <LinearGradient
+         colors = {['#fff','#95d65e']}
+         style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    height: "100%",
+                  }}
+         />
+<Text  style={{fontSize:28, fontFamily: 'best-font',textAlign: 'justify'}}> {' You have spent a total of ' + ' ' + codelog/3600 + ' hours '+ codelog/60 +  ' minutes on coding'  }</Text>
+
+
+<Text  style={{fontSize:28, fontFamily: 'best-font',paddingVertical:"5%",textAlign: 'justify'}}> {' You have spent a total of ' + ' ' + cooklog/3600 + ' hours '+ cooklog/60 +  ' minutes on cooking'  }</Text>
+
+
+<Text  style={{fontSize:28, fontFamily: 'best-font',paddingVertical:"5%",textAlign: 'justify'}}> {' You have spent a total of ' + ' ' + instrumentlog/3600 + ' hours ' +  instrumentlog/60 +  ' minutes on playing an instrument'  }</Text>
+
+
+<Text  style={{fontSize:28, fontFamily: 'best-font',paddingVertical:"5%",textAlign: 'justify'}}> {' You have spent a total of ' + ' ' + languagelog/3600 + ' hours ' + languagelog/60 +  ' minutes on learning a language'  }</Text>
+</View>
+
+
+       );
+     }
+   }
+
  const styles = StyleSheet.create({
    headerText: {
    fontSize: 18, fontFamily: 'best-font',  margin: 10,
@@ -894,7 +1280,10 @@
    },
    Logbook:{
      screen:Logbook
-   }
+   },
+Statslol:{
+  screen:Statsscreen
+},
 
  }, {
    contentComponent: CustomDrawerComponent,
@@ -936,6 +1325,9 @@
    },
    MoreActivities: {
      screen: DrawerNavigator
+   },
+   Stats:{
+     screen:Statsscreen
    }
 
 
