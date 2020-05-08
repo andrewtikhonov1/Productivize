@@ -1524,9 +1524,9 @@ class AchievementScreen extends React.Component{
 
      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop:'8%'}}>
 
-     {this.state.jackOfAllTradesAch==true?
+     {this.state.jackOfAllTradesAch==false?
      <View style={{marginRight:'5%'}}>
-        <FontAwesome5 size={67} name='suitcase' color='#73c332' onPress={()=>
+        <FontAwesome5 size={75} name='suitcase' color='#73c332' onPress={()=>
              {Alert.alert(
                "Jack of All Trades",
                "Tried 4 or more activities!",
@@ -1540,13 +1540,13 @@ class AchievementScreen extends React.Component{
            />
       </View>:
       <View style={{marginRight:'5%'}}>
-      <FontAwesome5 size={67} name='suitcase' color='#fff'/>
+      <FontAwesome5 size={75} name='suitcase' color='#fff'/>
     </View>
   }
 
-     {this.state.journalAch==true?
+     {this.state.journalAch==false?
       <View style={{marginRight:'3%'}}>
-        <Ionicons size={67} name='ios-journal' color='#73c332' onPress={()=>
+        <Ionicons size={75} name='ios-journal' color='#73c332' onPress={()=>
              {Alert.alert(
                "Dear Diary",
                "Made a journal entry!",
@@ -1559,13 +1559,13 @@ class AchievementScreen extends React.Component{
            }/>
       </View>:
       <View style={{marginRight:'3%'}}>
-       <Ionicons size={67} name='ios-journal' color='#fff'/>
+       <Ionicons size={75} name='ios-journal' color='#fff'/>
      </View>}
 
 
-       {this.state.fiveUnlockedAch==true?
+       {this.state.fiveUnlockedAch==false?
       <View style={{marginRight:'1%'}}>
-        <MaterialCommunityIcons size={67} name='dice-5' color='#73c332' onPress={()=>
+        <MaterialCommunityIcons size={75} name='dice-5' color='#73c332' onPress={()=>
              {Alert.alert(
                "5 Stars",
                "Unlocked 5 achievements!",
@@ -1577,12 +1577,12 @@ class AchievementScreen extends React.Component{
              }
            }/>
       </View>:<View style={{marginRight:'1%'}}>
-        <MaterialCommunityIcons size={67} name='dice-5' color='#fff'/>
+        <MaterialCommunityIcons size={75} name='dice-5' color='#fff'/>
       </View>}
 
-         {this.state.tenUnlockedAch==true?
+         {this.state.tenUnlockedAch==false?
       <View style={{}}>
-        <MaterialCommunityIcons size={67} name='dice-d10' color='#73c332' onPress={()=>
+        <MaterialCommunityIcons size={75} name='dice-d10' color='#73c332' onPress={()=>
              {Alert.alert(
                "Alexander Hamilton",
                "Unlocked 10 achievements!",
@@ -1594,15 +1594,15 @@ class AchievementScreen extends React.Component{
              }
            }/>
       </View>:<View style={{}}>
-        <MaterialCommunityIcons size={67} name='dice-d10' color='#fff'/>
+        <MaterialCommunityIcons size={75} name='dice-d10' color='#fff'/>
       </View>}
 
       </View>
 
-       <View style={{marginRight: '0.8%', marginLeft: '0.8%', flexDirection:'row', alignItems:'center', justifyContent: 'space-around', marginTop: '14.75%'}}>
+       <View style={{marginRight: '0.8%', marginLeft: '0.8%', flexDirection:'row', alignItems:'center', justifyContent: 'space-around', marginTop: '15.75%'}}>
 
         <View>
-          {this.state.codingAch1==true?
+          {this.state.codingAch1==false?
          <View style={{marginBottom: '93%'}}>
            <MaterialIcons size={51} name='computer' color='#cd7f32' onPress={()=>
              {Alert.alert(
@@ -1620,7 +1620,7 @@ class AchievementScreen extends React.Component{
          </View>
   }
 
-         {this.state.codingAch2==true?
+         {this.state.codingAch2==false?
          <View  style={{marginBottom: '93%'}}>
            <MaterialIcons size={51} name='computer' color='#c0c0c0' onPress={()=>
              {Alert.alert(
@@ -1638,7 +1638,7 @@ class AchievementScreen extends React.Component{
          </View>}
 
 
-         {this.state.codingAch3==true?
+         {this.state.codingAch3==false?
          <View style={{marginBottom: '93%'}}>
            <MaterialIcons size={51} name='computer' color='#E5BB33' onPress={()=>
              {Alert.alert(
